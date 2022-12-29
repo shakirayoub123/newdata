@@ -1,21 +1,37 @@
 <template>
     <h1>first</h1>
-
+     <h1>{{ abc }}</h1>
     <!-- we will get the value from state in the below p tag -->
     <p>{{ $store.state.title}}</p>
+    <h2>{{ privateKey }}   -----    {{ secretKey }}</h2>
     <button @click="clickme">click me</button>
     <child />
 </template>
 <script>
-import child from './child.vue'
+import child from './child.vue';
+import { mapState } from 'vuex';
 export default{
     name:'first',
     components:{
         child
     },
+    computed:{
+        ...mapState({
+        abc:(state)=>state.sno
+        }),
+    privateKey(){
+        // return this.$store.getters.hashAdd;
+
+        // 
+        return this.$store.getters.hashnewAdd;
+    },
+    secretKey(){
+        return this.$store.getters.newSecret('123')
+    }
+    },
     methods:{
         clickme(){
-            //easy way to chnge title
+            //easy way to change title
             // this.$store.state.title="Happy Now"
             // this.$store.commit('newTitle','new title has been changed now by use of mutations') 
            
@@ -28,7 +44,7 @@ export default{
             type:'newTitle',
             title:'New Again Data'
            })
-        // type is simply the muatation and title is the property or (object in payload) which we have wrote in mutation    
+        // type is simply the mutation and title is the property or (object in payload) which we have wrote in mutation
             
 
 
@@ -39,6 +55,7 @@ export default{
         //    })
 
         //    promise -------2nd way
+
         // this.$store.dispatch({
         //     type:'setnewTitle',
         //     title:'Title action Data'
